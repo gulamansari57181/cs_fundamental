@@ -22,9 +22,9 @@ using namespace std;
 
 
 
-            // Insert element into the heap
+            //push method implementation : To insert elemnt into the maxHeap
 
-            void insert(int value){
+            void push(int value){
                 if(size == capacity)
                     cout << "Heap is overflow, No elements can be inserted" << endl;
                 else {
@@ -40,9 +40,46 @@ using namespace std;
                         parent = (index - 1) / 2;
                     }
 
-                    cout << "Element " << value<< " is inserted into the heap" << endl;
+                    cout << "Inserted :" << value<<endl;
                 }
             }
+
+
+
+        // To pop an element from the heap
+        void Heapify(int index){
+            int largest = index;
+            int left = 2*index +1;
+            int right = 2*index +2;
+
+            // Now largest will hold, maximum among all three
+            
+            if(left<size && heapArr[left]> heapArr[largest])
+                largest = left;
+            
+            if(right <size && heapArr[right]> heapArr[largest])
+                largest = right;
+            
+            // if largest got update then continue for next else Heapify done
+            if(largest !=index){
+                // Swap the element
+                swap(heapArr[index], heapArr[largest]);
+                Heapify(index);
+            } 
+
+        } 
+        void pop(){
+            if(size==0)
+                cout<<"Heap Underflow !!";
+
+            // Put last elemnt to 0th index and reduce size, after that perform heapify
+            cout<<"Deleted : "<<heapArr[0]<<endl;
+            heapArr[0]= heapArr[size-1];
+            size--;
+           
+            Heapify(0);
+            
+        }
 
 
             // To print element of the heap
@@ -50,6 +87,18 @@ using namespace std;
                 for(int i=0 ; i<size ; i++){
                     cout<<heapArr[i]<<" ";
                 }
+                cout<<endl;
+            }
+
+            // To return maximum element (top of the heap element)
+
+            int top(){
+                if(size==0){
+                    cout<<"Underflow : Heap is empty.";
+                    
+                }
+               
+                return heapArr[0];
             }
 
     };
@@ -59,11 +108,16 @@ using namespace std;
         // creating an object of MaxHeap
         MaxHeap h(6);
 
-        h.insert(10);
-        h.insert(13);
-        h.insert(12);
-        h.insert(23);
-        h.insert(1);
+        h.push(10);
+        h.push(13);
+        h.push(12);
+        h.push(23);
+        h.push(1);
+        h.push(123);
         // To print the element of maxHeap
+        h.printMaxHeap();
+        cout<< "Maximum elemnt is :"<<h.top()<<endl;
+        h.pop();
+
         h.printMaxHeap();
     }
