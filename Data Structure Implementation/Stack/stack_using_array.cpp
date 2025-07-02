@@ -1,69 +1,75 @@
-
 #include<iostream>
-#include<vector>
 using namespace std;
 
-// Creating a stack class
-class Stack{
-    vector<int> st;
+class Stack {
+    int *arr;
+    int capacity;
+    int topIndex;
 
-    public :
-        // To push an element , O(1)
-        void push(int val){
-            st.push_back(val);
+public:
+    // Constructor
+    Stack(int size) {
+        capacity = size;
+        arr = new int[capacity];
+        topIndex = -1;
+    }
+
+    // Destructor
+    ~Stack() {
+        delete[] arr;
+    }
+
+    // Push operation
+    void push(int value) {
+        if (topIndex == capacity - 1) {
+            cout << "Stack Overflow\n";
+            return;
         }
+        arr[++topIndex] = value;
+    }
 
-        // To top an element  . O(1)
-        int top(){
-            if(st.empty()){
-                cout<<"No element in stack";
-                return -1;
-            }
-            
-            int ele = st[st.size()-1]; //this points to last element
-            return ele;
+    // Pop operation
+    void pop() {
+        if (topIndex == -1) {
+            cout << "Stack Underflow\n";
+            return;
         }
+        topIndex--;
+    }
 
-        // To implement pop method  , O(1)
-
-        void pop(){
-            if(st.empty()){
-                cout<<"Underlflow";
-            }
-
-            st.pop_back();
+    // Top operation
+    int top() {
+        if (topIndex == -1) {
+            cout << "Stack is Empty\n";
+            return -1; // or throw exception
         }
+        return arr[topIndex];
+    }
 
-        // To implement size method
-        int size(){
-            return st.size();
-        }
+    // Check if stack is empty
+    bool isEmpty() {
+        return topIndex == -1;
+    }
 
-        bool empty(){
-            return st.size()==0;
-        }
+    // Check current size
+    int size() {
+        return topIndex + 1;
+    }
 };
 
+int main() {
+    Stack st(5);
 
-
-
-
-
-int main(){
-
-    Stack st;
-
-    st.push(5);
+    st.push(10);
     st.push(20);
-    st.push(51);
-    st.push(23);
-    st.pop();
-    cout<<"Stack size is  : "<<st.size()<<endl;
+    st.push(30);
 
-    while(!st.empty()){
-        cout<<st.top()<<" ";
-        st.pop();
-    }
+    cout << "Top Element: " << st.top() << endl; // 30
+
+    st.pop();
+    cout << "Top after pop: " << st.top() << endl; // 20
+
+    cout << "Size: " << st.size() << endl; // 2
 
     return 0;
 }
